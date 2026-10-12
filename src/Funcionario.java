@@ -24,4 +24,8 @@ public class Funcionario {
         return cargo;
     }
 
+    public double obterSalarioFinal (){
+        return salario + cargo.calcularBonus(salario);
+    }
+
 }

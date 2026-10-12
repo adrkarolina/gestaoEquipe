@@ -20,18 +20,18 @@ public class Main {
                 case 1 -> cadastrarFuncionario();
                 case 2 -> listarFuncionarios();
                 case 3 -> exibirSalariosFinais();
-                case 4 -> funcionariosMaiorSalario();
+                case 4 -> funcionarioMaiorSalario();
                 case 5 -> funcionariosPorCargo();
                 case 6 -> buscarFuncionarioPorNome();
                 case 7 -> sair();
                 default -> System.out.println("Opção inválida");
 
             }
-        } while (opcao !=7);
+        } while (opcao != 7);
 
     }
 
-    private static void exibirMenu(){
+    private static void exibirMenu() {
         System.out.println("""
                 1 - Cadastrar funcionário
                 2 - Listar funcionários
@@ -42,7 +42,7 @@ public class Main {
                 7 - Sair""");
     }
 
-    private static void cadastrarFuncionario(){
+    private static void cadastrarFuncionario() {
         System.out.println("\n--- Cadastro de Funcionário ---");
         System.out.println("Digite o nome: ");
         String nome = leitor.nextLine();
@@ -62,52 +62,44 @@ public class Main {
          */
     }
 
-    private static void listarFuncionarios(){
+    private static void listarFuncionarios() {
         for (Funcionario funcionario : funcionarios) {
             System.out.println("Nome: " + funcionario.getNome());
             System.out.println("Cargo: " + funcionario.getCargo().getDescricao());
         }
     }
 
-    private static void exibirSalariosFinais(){
+    private static void exibirSalariosFinais() {
         for (Funcionario funcionario : funcionarios) {
 
             String nome = funcionario.getNome();
             double salarioBase = funcionario.getSalario();
             double salarioFinal = salarioBase + funcionario.getCargo().calcularBonus(salarioBase);
 
-            System.out.println(nome +"->" +  salarioFinal);
+            System.out.println(nome + " ->" + salarioFinal);
 
         }
     }
-    private static void funcionariosMaiorSalario(){
+
+    private static void funcionarioMaiorSalario() {
         System.out.println("\n--- Funcionário com Maior Salário Final ---");
-
-        if (funcionarios.isEmpty()) {
-            System.out.println("Nenhum funcionário cadastrado no sistema.");
-            return;
-        }
-        Funcionario maiorSalario = funcionarios.get(0);
-        double maiorSalarioFinal = maiorSalario.getSalario() + maiorSalario.getCargo().calcularBonus(maiorSalario.getSalario());
-
-        for (int i=1; i<funcionarios.size(); i++) {
-            Funcionario funcionario = funcionarios.get(i);
-            double salarioBase = funcionario.getSalario();
-            double salarioFinal = salarioBase + funcionario.getCargo().calcularBonus(salarioBase);
-
-            if (salarioFinal > maiorSalarioFinal) {
-                maiorSalarioFinal = salarioFinal;
-                maiorSalario = funcionario;
+        Funcionario funcionarioMaiorSalario = null;
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionarioMaiorSalario == null) {
+                funcionarioMaiorSalario = funcionario;
+            } else {
+                if (funcionario.obterSalarioFinal() > funcionarioMaiorSalario.obterSalarioFinal()) {
+                    funcionarioMaiorSalario = funcionario;
+                }
             }
         }
-
-        System.out.println("\n--- Funcionário com Maior Salário ---");
-        System.out.println("Nome: " + maiorSalario.getNome());
-        System.out.println("Cargo: " + maiorSalario.getCargo().getDescricao());
-        System.out.println("Salário final: R$ " + maiorSalarioFinal);
-
-
+        if (funcionarioMaiorSalario != null) {
+            System.out.println("Funcionário com maior salário: " + funcionarioMaiorSalario.getNome());
+        } else {
+            System.out.println("Sem funcionários cadastrados no sistema.");
+        }
     }
+
     private static void funcionariosPorCargo(){}
     private static void buscarFuncionarioPorNome(){}
 
